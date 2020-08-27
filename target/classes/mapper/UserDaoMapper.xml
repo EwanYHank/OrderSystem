@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ssm.dao.UserDao">
+    <resultMap id="userDomain" type="ssm.model.User">
+        <result property="bh" column="c_bh" jdbcType="CHAR"></result>
+        <result property="xm" column="c_xm" jdbcType="VARCHAR"></result>
+        <result property="sfzhm" column="c_sfzhm" jdbcType="CHAR"></result>
+        <result property="nl" column="n_nl"></result>
+        <result property="cjsj" column="dt_cjsj"></result>
+        <result property="xgsj" column="dt_xgsj"></result>
+        <result property="password" column="c_password" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <select id="findAllUsers" resultType="List" resultMap="userDomain">
+        select * from springdemo.t_user
+    </select>
+
+    <select id="findUserByNameAndPassword" resultType="List" resultMap="userDomain">
+        select * from springdemo.t_user where c_xm=#{name} and c_password=#{password}
+    </select>
+
+    <select id="findUserByBh" parameterType="String" resultType="ssm.model.User" resultMap="userDomain">
+        select * from springdemo.t_user where c_bh=#{bh}
+    </select>
+
+    <update id="updatePassword">
+        update springdemo.t_user
+        set c_password=#{newPassword}
+        where c_bh=#{bh}
+    </update>
+
+    <delete id="deleteUserByBh" parameterType="String">
+        delete from springdemo.t_user where c_bh=#{bh}
+    </delete>
+
+</mapper>

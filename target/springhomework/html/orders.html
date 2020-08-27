@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>
+        <p>Welcome <strong>{{ userInfo.xm }}</strong></p>
+<!--        <button type="button" onclick="showOrderList()">展示订单</button>-->
+        <button @Click="changePassword()">修改密码</button>
+        <button @Click="showAllUser()">显示所有用户</button>
+        <br>
+    </div>
+    <hr>
+    <div>
+        <div v-if="orderList.length == 0">
+            <p>0 record!</p>
+        </div>
+        <div v-if="orderList.length > 0">
+            <table border="1" >
+                <tr>
+                    <td>编号</td>
+                    <td>商品名称</td>
+                    <td>金额</td>
+                    <td>数量</td>
+                    <td>创建时间</td>
+                    <td>时间</td>
+                    <td>操作</td>
+                </tr>
+                <br>
+                <tr v-for="order in orderList">
+                    <td>{{ order.bh }}</td>
+                    <td>{{ order.spmc }}</td>
+                    <td>{{ order.je }}</td>
+                    <td>{{ order.sl }}</td>
+                    <td>{{ order.cjsj }}</td>
+                    <td>{{ order.xgsj }}</td>
+                    <td><button @click="deleteOrderByBh(order.bh, userInfo.bh)">删除</button></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+<script  type="text/javascript">
+    function parseUrl(url) {
+        if (url.indexOf("?") == -1) {
+            return {};
+        }
+        var query = url.split("?")[1];
+        var queryArr = query.split("&");
+        var obj = {};
+        queryArr.forEach(function (item) {
+            var key = item.split("=")[0];
+            var value = item.split("=")[1];
+            obj[key] = decodeURIComponent(value);
+        });
+        return obj;
+    };
+
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            orderList:[],
+            userInfo:{},
+            user_bh: ""
+        },
+        created: function () {
+            const _this = this;
+            _this.user_bh = parseUrl(window.location.search).bh;
+            $.ajax({
+                type: "get",
+                url: "/homework/orders/selectOrderByUser?bh=" + _this.user_bh,
+                dataType: "json",
+                success: function (res) {
+                    console.log('lsls --> ', _this.user_bh);
+                    if (res != null) {
+                        _this.orderList = res.orders;
+                        _this.userInfo = res.userInfo;
+                    }else{
+                        alert("请求数据为空");
+                    }
+                }
+            })
+        },
+        methods: {
+            changePassword: function () {
+                const bh = this.userInfo.bh;
+                window.location.href = "http://localhost:8080/homework/html/changePassword.html?bh="+bh;
+            },
+            showAllUser:function () {
+                window.location.href = "http://localhost:8080/homework/html/allUser.html";
+            },
+            deleteOrderByBh: function (orderBh, userBh) {
+                $.ajax({
+                    type: "get",
+                    url: "http://localhost:8080/homework/orders/deleteOrderByBh?order_bh="+orderBh,
+                    dataType: "text",
+                    success: function (data) {
+                        debugger
+                        window.location.href = "http://localhost:8080/homework/html/orders.html?bh="+userBh
+                    }
+                })
+            }
+        }
+    })
+
+</script>
+</html>

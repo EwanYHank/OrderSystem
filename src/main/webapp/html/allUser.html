@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <h2>用户列表</h2>
+</div>
+<div id="app">
+    <div v-if="userList.length == 0">
+        <p>0 record!</p>
+    </div>
+    <div v-if="userList.length > 0">
+        <table border="1">
+            <tr>
+                <td>编号</td>
+                <td>姓名</td>
+                <td>身份证号码</td>
+                <td>年龄</td>
+                <td>创建时间</td>
+                <td>时间</td>
+            </tr>
+            <br>
+            <tr v-for="user in userList">
+                <td>{{user.bh}}</td>
+                <td>{{user.xm}}</td>
+                <td>{{user.sfzhm}}</td>
+                <td>{{user.nl}}</td>
+                <td>{{user.cjsj}}</td>
+                <td>{{user.xgsj}}</td>
+                <td><button @click="deleteUser(user.bh)">删除</button></td>
+                <td><button @click="findOrdersByUser(user.bh)">显示订单</button></td>
+            </tr>
+            <br>
+        </table>
+    </div>
+</div>
+</body>
+<script  type="text/javascript">
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            userList:[]
+        },
+        created: function () {
+            const _this = this;
+            $.ajax({
+                type: "get",
+                url: "/homework/demo/showAllUsers",
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        _this.userList = data;
+                    }else{
+                        alert("请求数据为空");
+                    }
+                }
+            })
+        },
+        methods: {
+            deleteUser: function (user_bh) {
+                const _this = this;
+                $.ajax({
+                    type: "get",
+                    url: "http://localhost:8080/homework/demo/deleteUserByBh?bh="+user_bh,
+                    dataType: "text",
+                    success: function(data) {
+                        window.location.href = "http://localhost:8080/homework/html/allUser.html";
+                    }
+                })
+            },
+            findOrdersByUser:function (user_bh) {
+                window.location.href = "http://localhost:8080/homework/html/orders.html?bh="+user_bh;
+            }
+        }
+    })
+</script>
+</html>

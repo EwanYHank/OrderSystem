@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ssm.dao.OrderDao">
+    <select id="findOrderByUserBh" parameterType="String"
+            resultType="List" resultMap="orderDomain">
+        select * from springdemo.t_order where c_bh_user=#{bh}
+    </select>
+
+    <delete id="deleteOrderByBh" parameterType="String">
+        delete from springdemo.t_order where c_bh=#{bh}
+    </delete>
+
+<resultMap id="orderDomain" type="ssm.model.Order">
+    <result property="bh" column="c_bh"></result>
+    <result property="bhUser" column="c_bh_user"></result>
+    <result property="spmc" column="c_spmc"></result>
+    <result property="je" column="n_je"></result>
+    <result property="sl" column="n_sl"></result>
+    <result property="cjsj" column="dt_cjsj"></result>
+    <result property="xgsj" column="dt_xgsj"></result>
+</resultMap>
+</mapper>

@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css"/>
 </head>
 <body>
-<h2>用户登录</h2>
+<h2 class="order_basic">用户登录</h2>
 <div>
     <form id="userlogin">
+        <p class="order_basic">Welcome!!!</p>
         <div>
-            <input id="user-name" type="text" class="username">用户名
+            <p>
+                <input id="user-name" type="text" class="username"><label class="order_basic">用户名</label>
+            </p>
         </div>
         <div>
-            <input id="user-password" type="password" class="password">密码
+            <input class="order_basic" id="user-password" type="password" class="password">密码
         </div>
         <br>
         <button type="button" onclick="isLogin()">提交</button>

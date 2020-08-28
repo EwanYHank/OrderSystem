@@ -1,5 +1,10 @@
-ssm\service\UserService.class
-ssm\dao\UserDao.class
+ssm\service\Impl\OrderServiceImpl.class
+ssm\service\OrderService.class
+ssm\controller\OrderController.class
 ssm\model\User.class
 ssm\service\Impl\UserServiceImpl.class
 ssm\controller\UserController.class
+ssm\service\UserService.class
+ssm\dao\OrderDao.class
+ssm\dao\UserDao.class
+ssm\model\Order.class
